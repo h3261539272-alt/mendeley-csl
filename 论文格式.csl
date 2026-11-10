@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="zh-CN" demote-non-dropping-particle="sort-only">
+  <info>
+    <title>学校参考文献格式（顺序编码制，无 DOI）</title>
+    <title-short>School Numeric No DOI</title-short>
+    <id>http://www.zotero.org/styles/school-numeric-no-doi-custom-2026</id>
+    <link href="http://www.zotero.org/styles/school-numeric-no-doi-custom-2026" rel="self"/>
+    <category citation-format="numeric"/>
+    <category field="generic-base"/>
+    <summary>根据用户提供的学校参考文献示例定制。顺序编码、文献类型标识、无 DOI；在线资源保留 URL。</summary>
+    <updated>2026-11-10T00:00:00+00:00</updated>
+  </info>
+  <locale xml:lang="zh-CN">
+    <terms>
+      <term name="et-al">等</term>
+      <term name="in">见</term>
+    </terms>
+  </locale>
+  <macro name="author">
+    <choose>
+      <if variable="author">
+        <names variable="author" delimiter=", " et-al-min="4" et-al-use-first="3">
+          <name name-as-sort-order="all" sort-separator=" " initialize-with=" " delimiter=", "/>
+          <et-al prefix=", "/>
+        </names>
+      </if>
+      <else-if variable="editor">
+        <names variable="editor" delimiter=", " et-al-min="4" et-al-use-first="3">
+          <name name-as-sort-order="all" sort-separator=" " initialize-with=" "/>
+          <et-al prefix=", "/>
+        </names>
+      </else-if>
+    </choose>
+  </macro>
+  <macro name="type-mark">
+    <choose>
+      <if type="article-journal article-magazine article-newspaper" match="any"><text value="[J]"/></if>
+      <else-if type="book"><text value="[M]"/></else-if>
+      <else-if type="chapter paper-conference" match="any"><text value="[A]"/></else-if>
+      <else-if type="thesis"><text value="[D]"/></else-if>
+      <else-if type="report"><text value="[R]"/></else-if>
+      <else-if type="patent"><text value="[P]"/></else-if>
+      <else-if type="legislation bill regulation" match="any"><text value="[S]"/></else-if>
+      <else-if type="webpage post-weblog post" match="any"><text value="[EB/OL]"/></else-if>
+      <else><text value="[EB/OL]"/></else>
+    </choose>
+  </macro>
+  <macro name="year"><date variable="issued"><date-part name="year"/></date></macro>
+  <macro name="publisher-info">
+    <group delimiter=": ">
+      <text variable="publisher-place"/>
+      <text variable="publisher"/>
+    </group>
+  </macro>
+  <macro name="journal-details">
+    <group delimiter=", ">
+      <text variable="container-title"/>
+      <group delimiter=", ">
+        <text macro="year"/>
+        <group>
+          <text variable="volume"/>
+          <text variable="issue" prefix="(" suffix=")"/>
+        </group>
+      </group>
+    </group>
+    <text variable="page" prefix=": "/>
+  </macro>
+  <macro name="book-details">
+    <group delimiter=", ">
+      <text macro="publisher-info"/>
+      <text macro="year"/>
+      <text variable="page"/>
+    </group>
+  </macro>
+  <macro name="web-details">
+    <group delimiter=", ">
+      <text macro="year"/>
+      <text variable="URL"/>
+      <date variable="accessed" form="numeric" date-parts="year-month-day"/>
+    </group>
+  </macro>
+  <citation collapse="citation-number" after-collapse-delimiter=", ">
+    <sort><key variable="citation-number"/></sort>
+    <layout prefix="[" suffix="]" delimiter=", "><text variable="citation-number"/></layout>
+  </citation>
+  <bibliography entry-spacing="0" line-spacing="1" hanging-indent="true" second-field-align="flush">
+    <sort><key variable="citation-number"/></sort>
+    <layout suffix=".">
+      <text variable="citation-number" prefix="[" suffix="] "/>
+      <group delimiter=". ">
+        <group delimiter=". ">
+          <text macro="author"/>
+          <group delimiter=""><text variable="title"/><text macro="type-mark"/></group>
+        </group>
+        <choose>
+          <if type="article-journal article-magazine article-newspaper" match="any"><text macro="journal-details"/></if>
+          <else-if type="book thesis report" match="any"><text macro="book-details"/></else-if>
+          <else-if type="chapter paper-conference" match="any">
+            <group delimiter=". ">
+              <group delimiter="">
+                <text term="in" suffix=": "/>
+                <names variable="editor" delimiter=", "><name name-as-sort-order="all" initialize-with=" "/></names>
+                <text variable="container-title" prefix=". " suffix="[C]"/>
+              </group>
+              <text macro="book-details"/>
+            </group>
+          </else-if>
+          <else-if type="webpage post-weblog post" match="any"><text macro="web-details"/></else-if>
+          <else-if type="patent"><group delimiter=", "><text variable="number"/><date variable="issued" form="numeric" date-parts="year-month-day"/></group></else-if>
+          <else><group delimiter=", "><text macro="year"/><text variable="URL"/></group></else>
+        </choose>
+      </group>
+    </layout>
+  </bibliography>
+</style>
